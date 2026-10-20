@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Charchagram — Technology for Citizen Voice</title>
+<meta name="description" content="Charchagram, by Charcha Foundation, uses technology as a lever to deepen citizen engagement and bring transparency and accountability to governance." />
+<link rel="icon" type="image/png" href="logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600&family=DM+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --canvas: #EDEADE;
+    --surface: #F4F2E8;
+    --glass: rgba(255, 253, 245, 0.58);
+    --glass-border: rgba(255, 255, 255, 0.85);
+    --rule: rgba(0, 0, 0, 0.09);
+    --rule-strong: rgba(0, 0, 0, 0.16);
+    --ink: #1C1A24;
+    --ink-2: #3E3B4A;
+    --ink-3: #7A7888;
+    --ink-4: #A8A6B4;
+    --accent: #B8860B;
+    --accent-hover: #9A6F08;
+    --accent-glass: rgba(184, 134, 11, 0.10);
+    --accent-glow: rgba(184, 134, 11, 0.28);
+    --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 28px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--canvas); color: var(--ink);
+    font-family: "Instrument Sans", "Noto Sans Devanagari", sans-serif;
+    -webkit-font-smoothing: antialiased; line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 56rem; margin: 0 auto; padding: 0 1rem; }
+  .mono { font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .1em; font-size: .6875rem; }
+  .label.sm { font-family: "DM Mono", monospace; font-weight: 400; letter-spacing: .1em; font-size: .75rem; }
+  .label { font-family: "Instrument Sans", "Noto Sans Devanagari", sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 1.375rem; color: var(--accent); }
+  .glass {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 4px 24px rgba(0,0,0,.05);
+  }
+  .btn {
+    display: inline-block; background: var(--accent); color: #fff; font-weight: 600;
+    font-size: .875rem; padding: .6rem 1.25rem; border-radius: var(--r-sm);
+    box-shadow: 0 2px 8px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,.2);
+    transition: background .15s;
+  }
+  .btn:hover { background: var(--accent-hover); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* nav */
+  nav { border-bottom: 1px solid var(--rule); background: var(--glass); position: sticky; top: 0; z-index: 10;
+        backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 3.5rem; }
+  .brand { display: flex; align-items: center; gap: .6rem; font-weight: 700; font-size: 1.125rem; }
+  .brand img { width: 2.25rem; height: 2.25rem; border-radius: 8px; }
+  .wordmark em { font-style: normal; color: #D62828; }
+  h1 span, h2 span { color: var(--accent); }
+  nav ul { display: flex; gap: 1.5rem; list-style: none; font-size: .875rem; color: var(--ink-2); font-weight: 500; }
+  nav ul a:hover { color: var(--accent); }
+
+  /* hero */
+  .hero { position: relative; overflow: hidden; padding: 5rem 0 4rem; text-align: center; }
+  .hero::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 60% 40% at 50% 0%, var(--accent-glow) 0%, transparent 70%); }
+  .hero .wrap { position: relative; max-width: 44rem; }
+  h1 { font-size: clamp(2.25rem, 6vw, 3.5rem); line-height: 1.12; font-weight: 700; margin: 1rem 0 1.25rem; }
+  .lead { font-size: 1.125rem; color: var(--ink-2); max-width: 38rem; margin: 0 auto; }
+  .hero .btn { margin-top: 1.75rem; }
+
+  section { padding: 4rem 0; }
+  section.first { padding-top: 5rem; background: radial-gradient(ellipse 60% 30% at 50% 0%, var(--accent-glow) 0%, transparent 70%); }
+  .divider { border-top: 1px solid var(--rule-strong); }
+  h2 { font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.2; font-weight: 700; margin: .5rem 0 1.5rem; }
+
+  /* about */
+  .story p { color: var(--ink-2); font-size: 1.0625rem; margin-bottom: 1.15rem; max-width: 42rem; }
+  .story p.pull { font-size: 1.375rem; font-weight: 600; color: var(--ink); line-height: 1.4;
+    border-left: 3px solid var(--accent); padding-left: 1.1rem; margin: 1.75rem 0; }
+
+  /* initiatives */
+  .init { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 1.25rem; }
+  .init a { display: flex; flex-direction: column; gap: .6rem; border-radius: var(--r-lg); padding: 1.75rem; transition: border-color .15s, transform .15s; }
+  .init a:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .init h3 { font-size: 1.125rem; font-weight: 600; }
+  .init p { font-size: .9rem; color: var(--ink-2); }
+  .init .go { margin-top: auto; padding-top: .4rem; font-size: .8125rem; font-weight: 600; color: var(--accent); }
+
+  /* featured in */
+  .press { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 1.25rem; }
+  .press a { display: flex; flex-direction: column; gap: .85rem; border-radius: var(--r-lg); padding: 1.5rem; transition: border-color .15s, transform .15s; }
+  .press a:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .press .logo { width: 2.75rem; height: 2.75rem; border-radius: 10px; object-fit: contain; background: #fff; border: 1px solid var(--rule); padding: 2px; }
+  .press .pub { font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .08em; font-size: .6875rem; color: var(--ink-3); }
+  .press h3 { font-size: 1rem; line-height: 1.4; font-weight: 600; }
+  .press .go { margin-top: auto; font-size: .8125rem; font-weight: 600; color: var(--accent); }
+
+  /* follow + contact */
+  .surface { background: var(--surface); }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1.25rem; }
+  .card { border-radius: var(--r-lg); padding: 1.75rem; }
+  .social { display: flex; flex-direction: column; gap: .75rem; }
+  .social a { display: flex; align-items: center; gap: .85rem; padding: .85rem 1rem; border-radius: var(--r-md);
+    border: 1px solid var(--rule); background: rgba(255,255,255,.4); transition: border-color .15s, background .15s; }
+  .social a:hover { border-color: var(--accent); background: var(--accent-glass); }
+  .social svg { width: 1.25rem; height: 1.25rem; fill: var(--accent); flex-shrink: 0; }
+  .social strong { display: block; font-size: .9rem; }
+  .social small { color: var(--ink-3); font-size: .8rem; }
+  .row { display: flex; gap: .75rem; margin-bottom: 1.25rem; }
+  .row:last-child { margin-bottom: 0; }
+  .row .i { flex: 0 0 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--accent-glass); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; font-size: .85rem; }
+  .row .k { font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .08em; font-size: .625rem; color: var(--ink-4); }
+  .row .v { font-size: .9rem; color: var(--ink-2); }
+  .row a.v { color: var(--accent); font-weight: 500; }
+  .cta { background: var(--accent-glass); border: 1px solid var(--accent-glow); border-radius: var(--r-md); padding: 1.5rem; }
+  .cta p { color: var(--ink-2); font-size: .9rem; margin: .25rem 0 1rem; }
+
+  footer { border-top: 1px solid var(--rule); padding: 1.75rem 0; text-align: center; font-size: .8125rem; color: var(--ink-3); }
+  @media (max-width: 560px) { nav ul { gap: 1rem; } .hero { padding: 3.5rem 0 3rem; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#about" class="brand"><img src="logo.png" alt="Charchagram logo" width="36" height="36" /><span class="wordmark">Charcha<em>gram</em></span></a>
+    <ul>
+      <li><a href="#about">Who we are</a></li>
+      <li><a href="#initiatives">Initiatives</a></li>
+      <li><a href="#featured">Featured</a></li>
+      <li><a href="#follow">Follow</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section id="about" class="first">
+  <div class="wrap">
+    <span class="label">Who are we</span>
+    <div class="story" style="margin-top:1rem">
+      <p>We are CharchaGram, a group of people working to ensure accountability and transparency. As a civic-tech organisation, we do this by strengthening citizen engagement with governance, building tools that use technology as a lever to make information more accessible and, in turn, public processes easier to follow and understand.</p>
+      <p>Our initiatives span electoral literacy, public accountability, and the documentation of collective experiences. Our electoral literacy portal enables voters to explore candidates&rsquo; assets, criminal cases, and parliamentary records, while participating through polls and ratings to turn individual opinions into collective public dialogue. Through our collective archive of the 20 July protest in New Delhi, we preserve written and voice accounts from those who were present, allowing people to document their experiences and tell the story in their own words.</p>
+      <p>Across these initiatives, our aim is to make information accessible, amplify citizen voices, and create meaningful avenues for public participation and accountability.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="initiatives">
+  <div class="wrap">
+    <span class="label">Our initiatives</span>
+    <div class="init" style="margin-top:1.25rem">
+      <a class="glass" href="https://archive.charchagram.com/" target="_blank" rel="noopener noreferrer">
+        <h3>Electoral Literacy Portal</h3>
+        <p>A collective discussion forum for voters to review candidates’ assets, criminal cases and parliamentary record, and share their views, supported by real-time analysis, dashboards, sentiment tracking, polls and ratings that turn scattered voices into meaningful, actionable dialogue.</p>
+        <span class="go">Visit portal ↗</span>
+      </a>
+      <a class="glass" href="https://www.memoriesofjuly20.com/" target="_blank" rel="noopener noreferrer">
+        <h3>Collective Archive</h3>
+        <p>A crowdsourced digital archive where people share written or voice accounts of the 20 July 2026 protest in New Delhi, preserving the many ways it was experienced.</p>
+        <span class="go">Visit archive ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="featured">
+  <div class="wrap">
+    <span class="label">Featured in</span>
+    <div class="press" style="margin-top:1.25rem">
+      <a class="glass" href="https://www.thehindu.com/news/national/on-ecinet-platform-access-for-states-can-be-switched-off-and-on-centrally-report/article71605004.ece" target="_blank" rel="noopener noreferrer">
+        <img class="logo" src="logos/thehindu.png" alt="The Hindu logo" />
+        <div class="pub">The Hindu</div>
+        <h3>On ECINet platform, access for states can be switched off and on centrally: report</h3>
+        <span class="go">Read article ↗</span>
+      </a>
+      <a class="glass" href="https://www.hindustantimes.com/india-news/audit-finds-bengal-specific-access-curbs-in-ecinet-code-101792457867313-amp.html" target="_blank" rel="noopener noreferrer">
+        <img class="logo" src="logos/ht.png" alt="Hindustan Times logo" />
+        <div class="pub">Hindustan Times</div>
+        <h3>Audit finds Bengal-specific access curbs in ECINet code</h3>
+        <span class="go">Read article ↗</span>
+      </a>
+      <a class="glass" href="https://thewire.in/rights/police-threw-people-on-the-ground-to-beat-them-a-university-student-recounts-the-horror-of-july-20" target="_blank" rel="noopener noreferrer">
+        <img class="logo" src="logos/wire.png" alt="The Wire logo" />
+        <div class="pub">The Wire</div>
+        <h3>‘Police Threw People on the Ground to Beat Them’: A University Student Recounts the Horror of July 20</h3>
+        <span class="go">Read article ↗</span>
+      </a>
+      <a class="glass" href="https://openvaartha.com/article/memories-of-july20-a-digital-archive-preserves-the-human-stories-behind-delhis-jantarmantar-student-protests" target="_blank" rel="noopener noreferrer">
+        <img class="logo" src="logos/openvaartha.png" alt="Open Vaartha logo" />
+        <div class="pub">Open Vaartha</div>
+        <h3>Memories of July 20: A Digital Archive Preserves the Human Stories Behind Delhi’s Jantar Mantar Student Protests</h3>
+        <span class="go">Read article ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="follow" class="surface">
+  <div class="wrap">
+    <span class="label sm">Follow us</span>
+    <h2>Join the <span>conversation</span></h2>
+    <div class="social" style="max-width:30rem">
+      <a href="https://x.com/Charchagram_" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span><strong>X (Twitter)</strong><small>@Charchagram_</small></span>
+      </a>
+      <a href="https://www.instagram.com/__charchagram__/" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm6.4-11.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg>
+        <span><strong>Instagram</strong><small>@__charchagram__</small></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="contact">
+  <div class="wrap">
+    <span class="label sm">Contact us</span>
+    <h2>Get in <span>touch</span></h2>
+    <div class="grid2">
+      <div class="card glass">
+        <div class="row"><div class="i" style="font-weight:700">च</div><div><div class="k">Built by</div><div class="v">Charcha Foundation</div></div></div>
+        <div class="row"><div class="i">✉</div><div><div class="k">Email</div><a class="v" href="mailto:connect.charchagram@gmail.com">connect.charchagram@gmail.com</a></div></div>
+        <div class="row"><div class="i">☎</div><div><div class="k">Phone</div><a class="v" href="tel:+918287509616" style="color:var(--ink-2)">+91 82875 09616</a></div></div>
+        <div class="row"><div class="i">◷</div><div><div class="k">Hours</div><div class="v">Mon–Sat, 11 AM – 6 PM</div></div></div>
+      </div>
+      <div class="card glass" style="display:flex;align-items:center">
+        <div class="cta">
+          <strong>Work with us</strong>
+          <p>For suggestions, collaboration, partnerships or press — reach out over email.</p>
+          <a class="btn" href="mailto:connect.charchagram@gmail.com">Send an email →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© <span id="yr">2026</span> Charcha Foundation · Charchagram. All rights reserved.</div>
+</footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
