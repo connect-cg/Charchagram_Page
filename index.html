@@ -134,15 +134,18 @@
   /* donate bar + modal */
   footer { padding-bottom: 5.5rem; }
   .donate-bar { position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 20; display: flex; align-items: center;
-    width: max-content; max-width: calc(100% - 2rem); border-radius: var(--r-sm); border-color: var(--accent); background: rgba(244,242,232,.96); box-shadow: 0 6px 24px rgba(0,0,0,.14); }
+    width: max-content; max-width: calc(100% - 2rem); border-radius: var(--r-sm); border-color: #3A5C4C; background: #497260; box-shadow: 0 8px 28px rgba(0,0,0,.28); }
   .donate-bar[hidden] { display: none; }
   .donate-open { display: flex; align-items: center; gap: .85rem; background: none; border: 0; cursor: pointer; padding: .85rem .5rem .85rem 1.25rem;
-    font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .1em; font-size: .8125rem; font-weight: 500; color: var(--accent); }
-  .donate-open:hover { color: var(--accent-hover); }
-  .donate-open i { width: .55rem; height: .55rem; border-radius: 50%; background: #D62828; flex-shrink: 0; animation: pulse 1.8s ease-in-out infinite; }
+    font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .1em; font-size: .875rem; font-weight: 700; color: #FFFDF5; }
+  .donate-open:hover { color: #fff; }
+  .donate-bar:hover { background: #3F6553; }
+  .donate-open i { width: .6rem; height: .6rem; border-radius: 50%; background: #FF4D4D; flex-shrink: 0; animation: pulse 1.8s ease-in-out infinite; }
   @keyframes pulse { 50% { opacity: .35; } }
   .donate-x, .modal-x { background: none; border: 0; cursor: pointer; color: var(--ink-3); font-size: 1.25rem; line-height: 1; padding: .85rem 1rem; }
-  .donate-x:hover, .modal-x:hover { color: var(--accent); }
+  .donate-x { color: rgba(255,253,245,.75); font-weight: 700; }
+  .donate-x:hover { color: #fff; }
+  .modal-x:hover { color: var(--accent); }
   .modal { position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 1rem;
     background: rgba(28,26,36,.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); overflow-y: auto; }
   .modal[hidden] { display: none; }
