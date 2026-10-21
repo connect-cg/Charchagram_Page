@@ -48,6 +48,11 @@
   .qr { display: block; width: 14rem; max-width: 70%; margin: 1.5rem auto 0; border-radius: var(--r-md); border: 1px solid var(--rule-strong); background: #fff; }
   .note { margin-top: 1.25rem; font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .08em; font-size: .75rem; color: var(--accent); }
   footer { border-top: 1px solid var(--rule); padding: 1.75rem 0; text-align: center; font-size: .8125rem; color: var(--ink-3); }
+  .upi { display: flex; align-items: center; justify-content: center; gap: .6rem; margin-top: 1rem; flex-wrap: wrap; }
+  .upi code { font-family: "DM Mono", monospace; font-size: .9rem; color: var(--ink); letter-spacing: .02em; user-select: all; }
+  .upi button { cursor: pointer; font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .08em; font-size: .6875rem; font-weight: 500;
+    padding: .35rem .75rem; border-radius: var(--r-sm); border: 1px solid var(--accent); background: transparent; color: var(--accent); transition: background .15s, color .15s; }
+  .upi button:hover, .upi button.done { background: var(--accent); color: #fff; }
 </style>
 </head>
 <body>
@@ -72,7 +77,8 @@
       <div class="kicker">Support this work</div>
       <h1>We are crowd-funded.</h1>
       <p>This platform is built by Charcha Foundation. We build tech-enabled civic tools. This work is sustained by a large community of volunteers and donations by people like you. This is our other <a href="index.html#initiatives">work</a>. Please contribute whatever you can.</p>
-      <img class="qr" src="qr.png" alt="UPI QR code to donate to Charcha Foundation" />
+      <img class="qr" src="qr-phonepe.png" alt="PhonePe UPI QR code to donate to Charcha Foundation" />
+      <div class="upi"><span class="mono" style="color:var(--ink-3)">UPI ID</span><code>supportcharcha@ybl</code><button type="button" onclick="copyUpi(this)" aria-label="Copy UPI ID">Copy</button></div>
       <div class="note">We do not accept overseas funding.</div>
     </div>
   </div>
@@ -82,5 +88,14 @@
   <div class="wrap">© 2026 Charcha Foundation · Charchagram. All rights reserved.</div>
 </footer>
 
+<script>
+  function copyUpi(btn) {
+    var id = "supportcharcha@ybl";
+    function ok() { btn.textContent = "Copied"; btn.classList.add("done"); setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("done"); }, 1800); }
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(id).then(ok, function () {}); return; }
+    var t = document.createElement("textarea"); t.value = id; document.body.appendChild(t); t.select();
+    try { document.execCommand("copy"); ok(); } catch (e) {} document.body.removeChild(t);
+  }
+</script>
 </body>
 </html>
