@@ -89,6 +89,7 @@
   .init { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 1.25rem; }
   .init a { display: flex; flex-direction: column; gap: .6rem; border-radius: var(--r-lg); padding: 1.75rem; transition: border-color .15s, transform .15s; }
   .init a:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .init .logo { width: 3.5rem; height: 3.5rem; object-fit: contain; }
   .init h3 { font-size: 1.125rem; font-weight: 600; }
   .init p { font-size: .9rem; color: var(--ink-2); }
   .init .go { margin-top: auto; padding-top: .4rem; font-size: .8125rem; font-weight: 600; color: var(--accent); }
@@ -159,12 +160,20 @@
   <div class="wrap">
     <span class="label">Our initiatives</span>
     <div class="init" style="margin-top:1.25rem">
+      <a class="glass" href="https://rtigram.com/" target="_blank" rel="noopener noreferrer">
+        <img class="logo" src="logos/rtigram.png" alt="RTIgram logo" />
+        <h3>RTIgram</h3>
+        <p>India&rsquo;s open RTI database: a public, searchable home for Right to Information requests and the responses they receive, so that citizens can see what has been asked and answered.</p>
+        <span class="go">Visit RTIgram ↗</span>
+      </a>
       <a class="glass" href="https://archive.charchagram.com/" target="_blank" rel="noopener noreferrer">
+        <img class="logo" src="logos/portal.png" alt="Electoral Literacy Portal logo" />
         <h3>Electoral Literacy Portal</h3>
         <p>A collective discussion forum for voters to review candidates’ assets, criminal cases and parliamentary record, and share their views, supported by real-time analysis, dashboards, sentiment tracking, polls and ratings that turn scattered voices into meaningful, actionable dialogue.</p>
         <span class="go">Visit portal ↗</span>
       </a>
       <a class="glass" href="https://www.memoriesofjuly20.com/" target="_blank" rel="noopener noreferrer">
+        <img class="logo" src="logos/memories.svg" alt="Collective Archive logo" />
         <h3>Collective Archive</h3>
         <p>A crowdsourced digital archive where people share written or voice accounts of the 20 July 2026 protest in New Delhi, preserving the many ways it was experienced.</p>
         <span class="go">Visit archive ↗</span>
