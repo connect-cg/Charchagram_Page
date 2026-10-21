@@ -130,6 +130,33 @@
   footer { border-top: 1px solid var(--rule); padding: 1.75rem 0; text-align: center; font-size: .8125rem; color: var(--ink-3); }
   @media (max-width: 640px) { .init a { grid-template-columns: 4rem 1fr; column-gap: 1rem; } .init .logo { width: 4rem; height: 4rem; grid-row: 1; } .init h3 { align-self: center; } .init p, .init .go { grid-column: 1 / -1; grid-row: auto; } }
   @media (max-width: 560px) { nav .wrap { flex-wrap: wrap; padding-top: .5rem; padding-bottom: .5rem; } .brand img { width: 2.75rem; height: 2.75rem; } nav ul { gap: 1rem; flex-wrap: wrap; } .hero { padding: 3.5rem 0 3rem; } }
+
+  /* donate bar + modal */
+  footer { padding-bottom: 5.5rem; }
+  .donate-bar { position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 20; display: flex; align-items: center;
+    width: max-content; max-width: calc(100% - 2rem); border-radius: var(--r-sm); border-color: var(--accent); background: rgba(244,242,232,.96); box-shadow: 0 6px 24px rgba(0,0,0,.14); }
+  .donate-bar[hidden] { display: none; }
+  .donate-open { display: flex; align-items: center; gap: .85rem; background: none; border: 0; cursor: pointer; padding: .85rem .5rem .85rem 1.25rem;
+    font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .1em; font-size: .8125rem; font-weight: 500; color: var(--accent); }
+  .donate-open:hover { color: var(--accent-hover); }
+  .donate-open i { width: .55rem; height: .55rem; border-radius: 50%; background: #D62828; flex-shrink: 0; animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .35; } }
+  .donate-x, .modal-x { background: none; border: 0; cursor: pointer; color: var(--ink-3); font-size: 1.25rem; line-height: 1; padding: .85rem 1rem; }
+  .donate-x:hover, .modal-x:hover { color: var(--accent); }
+  .modal { position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 1rem;
+    background: rgba(28,26,36,.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); overflow-y: auto; }
+  .modal[hidden] { display: none; }
+  .modal-card { position: relative; width: 100%; max-width: 30rem; margin: auto; border-radius: var(--r-xl); padding: 2rem 1.75rem 1.75rem; text-align: center;
+    background: var(--surface); border: 1px solid var(--accent); box-shadow: 0 12px 48px rgba(0,0,0,.25); }
+  .modal-x { position: absolute; top: .5rem; right: .5rem; padding: .5rem .75rem; }
+  .modal-card .kicker { font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .1em; font-size: .75rem; color: var(--ink-3); text-align: left; }
+  .modal-card h2 { margin: 1.25rem 0 .75rem; color: var(--accent); }
+  .modal-card p { color: var(--ink-2); font-size: 1rem; }
+  .modal-card p a { color: var(--accent); text-decoration: underline; }
+  .modal-card .qr { display: block; width: 14rem; max-width: 70%; margin: 1.5rem auto .5rem; border-radius: var(--r-md); border: 1px solid var(--rule-strong); background: #fff; }
+  .modal-card .upi { font-size: .9rem; color: var(--ink-2); }
+  .modal-card .upi strong { color: var(--ink); }
+  .modal-card .note { margin-top: 1.25rem; font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .08em; font-size: .75rem; color: var(--accent); }
 </style>
 </head>
 <body>
@@ -271,6 +298,41 @@
 <footer>
   <div class="wrap">© <span id="yr">2026</span> Charcha Foundation · Charchagram. All rights reserved.</div>
 </footer>
+
+<div class="donate-bar glass" id="donate-bar">
+  <button type="button" class="donate-open" id="donate-open"><i></i>Click here to donate</button>
+  <button type="button" class="donate-x" id="donate-dismiss" aria-label="Dismiss donate bar">&times;</button>
+</div>
+
+<div class="modal" id="donate-modal" hidden role="dialog" aria-modal="true" aria-labelledby="donate-title">
+  <div class="modal-card">
+    <button type="button" class="modal-x" id="donate-close" aria-label="Close">&times;</button>
+    <div class="kicker">Support this work</div>
+    <h2 id="donate-title">We are crowd-funded.</h2>
+    <p>This platform is built by Charcha Foundation. We build tech-enabled civic tools. This work is sustained by a large community of volunteers and donations by people like you. This is our other <a href="#initiatives" id="donate-work">work</a>. Please contribute whatever you can.</p>
+    <img class="qr" src="qr.png" alt="UPI QR code to donate to Charcha Foundation" />
+    <div class="upi">UPI ID: <strong>9782707072@hdfc</strong></div>
+    <div class="note">We do not accept overseas funding.</div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var bar = document.getElementById("donate-bar"), modal = document.getElementById("donate-modal");
+    try { if (sessionStorage.getItem("donateBarDismissed")) bar.hidden = true; } catch (e) {}
+    function open() { modal.hidden = false; document.body.style.overflow = "hidden"; }
+    function close() { modal.hidden = true; document.body.style.overflow = ""; }
+    document.getElementById("donate-open").addEventListener("click", open);
+    document.getElementById("donate-close").addEventListener("click", close);
+    document.getElementById("donate-work").addEventListener("click", close);
+    document.getElementById("donate-dismiss").addEventListener("click", function () {
+      bar.hidden = true;
+      try { sessionStorage.setItem("donateBarDismissed", "1"); } catch (e) {}
+    });
+    modal.addEventListener("click", function (e) { if (e.target === modal) close(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !modal.hidden) close(); });
+  })();
+</script>
 
 <script>
   document.getElementById("yr").textContent = new Date().getFullYear();
