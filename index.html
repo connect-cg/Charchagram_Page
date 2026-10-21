@@ -87,7 +87,8 @@
 
   /* initiatives */
   .init { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
-  .init a { display: grid; grid-template-columns: 5rem 1fr auto; align-items: center; column-gap: 1.75rem; row-gap: .4rem; border-radius: var(--r-lg); padding: 1.75rem; transition: border-color .15s, transform .15s; }
+  .init a, .init .static { display: grid; grid-template-columns: 5rem 1fr auto; align-items: center; column-gap: 1.75rem; row-gap: .4rem; border-radius: var(--r-lg); padding: 1.75rem; transition: border-color .15s, transform .15s; }
+  .init .static { grid-template-columns: 5rem 1fr; }
   .init a:hover { border-color: var(--accent); transform: translateY(-2px); }
   .init .logo { grid-row: 1 / span 2; width: 5rem; height: 5rem; object-fit: contain; }
   .init h3, .init p { grid-column: 2; }
@@ -128,7 +129,7 @@
   .cta p { color: var(--ink-2); font-size: .9rem; margin: .25rem 0 1rem; }
 
   footer { border-top: 1px solid var(--rule); padding: 1.75rem 0; text-align: center; font-size: .8125rem; color: var(--ink-3); }
-  @media (max-width: 640px) { .init a { grid-template-columns: 4rem 1fr; column-gap: 1rem; } .init .logo { width: 4rem; height: 4rem; grid-row: 1; } .init h3 { align-self: center; } .init p, .init .go { grid-column: 1 / -1; grid-row: auto; } }
+  @media (max-width: 640px) { .init a, .init .static { grid-template-columns: 4rem 1fr; column-gap: 1rem; } .init .logo { width: 4rem; height: 4rem; grid-row: 1; } .init h3 { align-self: center; } .init p, .init .go { grid-column: 1 / -1; grid-row: auto; } }
   @media (max-width: 560px) { nav .wrap { flex-wrap: wrap; padding-top: .5rem; padding-bottom: .5rem; } .brand img { width: 2.75rem; height: 2.75rem; } nav ul { gap: 1rem; flex-wrap: wrap; } .hero { padding: 3.5rem 0 3rem; } }
 
   /* donate bar + modal */
@@ -204,12 +205,11 @@
         <p>A crowdsourced digital archive where people share written or voice accounts of the 20 July 2026 protest in New Delhi, preserving the many ways it was experienced.</p>
         <span class="go">Visit archive ↗</span>
       </a>
-      <a class="glass" href="https://archive.charchagram.com/" target="_blank" rel="noopener noreferrer">
+      <div class="glass static">
         <img class="logo" src="logos/portal.png" alt="Electoral Literacy Portal logo" />
         <h3>Electoral Literacy Portal</h3>
         <p>A collective discussion forum for voters to review candidates’ assets, criminal cases and parliamentary record, and share their views, supported by real-time analysis, dashboards, sentiment tracking, polls and ratings that turn scattered voices into meaningful, actionable dialogue.</p>
-        <span class="go">Visit portal ↗</span>
-      </a>
+      </div>
     </div>
   </div>
 </section>
